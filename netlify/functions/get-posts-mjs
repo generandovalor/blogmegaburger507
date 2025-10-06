@@ -1,0 +1,38 @@
+// Esta es nuestra función serverless. Se ejecuta en los servidores de Netlify.
+
+// La URL de tu Google Apps Script. Ahora está segura en el backend.
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby008YXbcpFh1cv7G3bB70INZ8HhqiwQ1w0FiPp7lHO9nNCNl8nDWAOwSIp_FLtbew/exec';
+
+export const handler = async (event, context) => {
+  try {
+    // Hacemos la llamada a nuestro script de Google.
+    const response = await fetch(GOOGLE_SCRIPT_URL);
+    if (!response.ok) {
+      throw new Error(`Error al contactar la API de Google: ${response.statusText}`);
+    }
+    const data = await response.json();
+
+    // Devolvemos los datos al navegador del usuario.
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*', // Permite que cualquier sitio llame a esta función
+        // --- LA MAGIA DEL CACHÉ ---
+        // Le decimos a Netlify: "guarda esta respuesta por 60 segundos".
+        // "stale-while-revalidate" significa que si alguien pide los datos después de 60s,
+        // Netlify le da la versión vieja (stale) al instante, y por detrás pide la nueva.
+        'Cache-Control': 'public, max-age=60, s-maxage=60, stale-while-revalidate=300'
+      },
+      body: JSON.stringify(data),
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'No se pudieron cargar los posts.' }),
+    };
+  }
+};
+
+

@@ -1,0 +1,16 @@
+# Este archivo le dice a Netlify cómo construir y servir tu sitio.
+
+[build]
+  # No necesitamos un comando de construcción para un sitio HTML simple.
+  # Las funciones se detectan automáticamente en la carpeta 'netlify/functions'.
+  
+[[redirects]]
+  # Esta es la regla mágica.
+  # Cualquier petición a /api/posts en tu sitio...
+  from = "/api/posts"
+  # ...será redirigida internamente a nuestra función.
+  to = "/.netlify/functions/get-posts"
+  # Código 200 significa que es una reescritura, no una redirección visible.
+  status = 200
+
+

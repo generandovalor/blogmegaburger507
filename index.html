@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Meta etiquetas que se actualizarán dinámicamente -->
+    <title>Blog - Mega Burger 507</title>
+    <meta id="meta-description" name="description" content="El Blog De Las Mejores Hamburguesas De Pedregal Panama Con El Sabor Mas Bestial. Descubre recetas, noticias y más.">
+    <meta id="meta-og-title" property="og:title" content="Blog - Mega Burger 507">
+    <meta id="meta-og-description" property="og:description" content="El Blog De Las Mejores Hamburguesas De Pedregal Panama Con El Sabor Mas Bestial. Descubre recetas, noticias y más.">
+    <meta id="meta-og-image" property="og:image" content="https://i.postimg.cc/R0xqNYsW/unnamed.png"> <!-- Una imagen genérica por defecto -->
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        .font-anton { font-family: 'Anton', sans-serif; }
+        .post-content h2 { font-size: 1.875rem; font-weight: bold; margin-top: 2rem; margin-bottom: 1rem; }
+        .post-content h3 { font-size: 1.5rem; font-weight: bold; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #FBBF24; } /* amber-400 */
+        .post-content p { margin-bottom: 1.25rem; line-height: 1.75; }
+        .pagination-btn.active {
+            background-color: #FBBF24; /* amber-400 */
+            color: #1F2937; /* gray-800 */
+        }
+        .title-effect {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            letter-spacing: 0.08em;
+        }
+        .post-title-effect {
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        }
+    </style>
+    <!-- Contenedor para el Schema.org JSON-LD -->
+    <div id="schema-container"></div>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div id="app" class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <a href="https://megaburger507.netlify.app/" target="_blank" class="text-amber-400 font-anton text-5xl md:text-7xl uppercase transition-colors hover:text-amber-300 title-effect">
+                Mega Burger 507
+            </a>
+            <p class="text-gray-400 mt-2 text-lg">El Blog De Las Mejores Hamburguesas De Pedregal Panama Con El Sabor Mas Bestial</p>
+        </header>
+
+        <main id="router-view">
+            <!-- Vistas dinámicas -->
+        </main>
+    </div>
+
+    <footer class="text-center py-8 mt-4 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+             <div class="mb-6">
+                <a href="https://whatsapp.com/channel/0029VbB9afh1Hsq7U1grP12n" target="_blank" class="inline-block bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-600 transition-colors">
+                    Sigue nuestro canal de WhatsApp para ofertas
+                </a>
+             </div>
+             <div class="flex justify-center gap-6 mb-4 text-gray-400">
+                <a href="#" class="hover:text-amber-400 transition-colors">Inicio</a>
+                <a href="#/sobre-nosotros" class="hover:text-amber-400 transition-colors">Nuestra Historia</a>
+                <a href="#/ubicacion" class="hover:text-amber-400 transition-colors">Ubicación</a>
+            </div>
+            <p class="text-gray-400 mb-2">
+                <a href="https://megaburger507.netlify.app/" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition-colors">
+                    &copy; 2025 Mega Burger 507
+                </a>
+            </p>
+            <p class="text-gray-500 text-sm">
+                Blog Desarrollado por 
+                <a href="https://ganaclientes.netlify.app/" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition-colors">
+                    GanaClientes
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <button id="scrollTopBtn" title="Volver arriba" class="hidden fixed bottom-5 right-5 z-50 bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold w-12 h-12 rounded-full shadow-lg transition-transform transform hover:scale-110">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <!-- Plantillas -->
+    <template id="posts-list-template">
+        <div>
+            <div id="filter-status" class="mb-6 text-center"></div>
+            <div class="mb-8 flex flex-col sm:flex-row gap-4 items-center">
+                <input id="search-input" type="text" placeholder="Buscar por hamburguesa, papas, etc..." class="w-full bg-gray-800 border-2 border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-400 transition-colors">
+            </div>
+            <div id="posts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            <div id="pagination-container" class="flex justify-center items-center mt-12 space-x-2"></div>
+        </div>
+    </template>
+
+    <template id="post-detail-template">
+        <div class="max-w-3xl mx-auto">
+            <a href="#" class="inline-block mb-8 p-2 text-amber-400 hover:text-amber-500 transition-colors">&larr; Volver a todos los artículos</a>
+            <article>
+                <img id="post-image" src="" alt="Imagen del artículo" class="w-full aspect-square object-cover rounded-lg mb-6" loading="lazy">
+                <h1 id="post-title" class="text-4xl md:text-5xl font-bold font-anton text-amber-400 mb-4 post-title-effect"></h1>
+                <div class="flex items-center text-gray-400 mb-8 flex-wrap">
+                    <span id="post-author"></span>
+                    <span class="mx-2">&bull;</span>
+                    <span id="post-date"></span>
+                    <span class="mx-2">&bull;</span>
+                    <a id="post-category-link" href="#" class="bg-amber-800 text-amber-200 px-2 py-1 rounded-md text-sm hover:bg-amber-700"></a>
+                </div>
+                <div id="post-video-container" class="mb-8"></div>
+                <div id="post-content" class="post-content text-lg text-gray-300"></div>
+
+                <div class="mt-12 text-center">
+                    <a href="https://crea-tu-pedido-megaburger.netlify.app/" target="_blank" rel="noopener noreferrer" class="inline-block bg-amber-400 text-gray-900 font-bold font-anton text-2xl px-10 py-4 rounded-lg uppercase tracking-wider hover:bg-amber-500 transform hover:scale-105 transition-all duration-300">
+                        ¡Ver el Menú Completo!
+                    </a>
+                </div>
+
+                <div id="share-buttons" class="mt-12 pt-8 border-t border-gray-700">
+                    <h3 class="text-center text-lg font-bold text-gray-300 mb-4">¡Comparte esta delicia!</h3>
+                    <div class="flex justify-center items-center gap-4">
+                        <a id="share-whatsapp" href="#" target="_blank" class="p-3 bg-gray-800 rounded-full hover:bg-green-500 transition-colors" title="Compartir en WhatsApp">
+                             <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.888-.001 2.225.651 4.315 1.831 6.063l-1.21 4.36 4.42-1.164zM16.555 12.51c-.163-.506-1.422-2.13-1.65-2.368-.227-.237-.478-.264-.728-.264s-.502.106-.752.379-.904 1.063-1.107 1.284c-.202.221-.403.248-.752.082-.349-.164-1.474-.543-2.803-1.723-1.036-.92-1.744-2.055-1.947-2.404-.202-.349-.021-.52.164-.684.162-.146.353-.379.528-.554.176-.174.236-.29.354-.506.118-.215.058-.403-.021-.554-.078-.15-.728-1.744-.988-2.368-.26-.623-.52-.536-.728-.549-.19-.012-.42-.012-.64.012-.22.024-.57.082-.87.379-.302.296-1.14 1.106-1.14 2.688s1.164 3.118 1.32 3.318c.156.199 2.24 3.41 5.448 4.787 3.205 1.375 3.205.92 3.781.87.576-.05 1.825-.743 2.085-1.46.26-.716.26-1.332.181-1.46z"/></svg>
+                        </a>
+                        <a id="share-facebook" href="#" target="_blank" class="p-3 bg-gray-800 rounded-full hover:bg-blue-600 transition-colors" title="Compartir en Facebook">
+                           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v7.028C18.343 21.128 22 16.991 22 12z"/></svg>
+                        </a>
+                        <button id="copy-link-btn" class="p-3 bg-gray-800 rounded-full hover:bg-amber-400 transition-colors" title="Copiar enlace">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.72"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.72"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Artículos Relacionados -->
+                <div id="related-posts-section" class="mt-12 pt-8 border-t border-gray-700"></div>
+
+            </article>
+        </div>
+    </template>
+
+    <template id="about-page-template">
+        <div class="max-w-4xl mx-auto text-lg text-gray-300 post-content">
+             <h1 class="text-4xl md:text-5xl font-bold font-anton text-amber-400 mb-6 post-title-effect">Nuestra Historia</h1>
+             <img src="https://i.postimg.cc/hvhR1d81/unnamed.png" alt="Food truck de Mega Burger 507" class="w-full rounded-lg shadow-lg mb-8">
+             <h2>De un Sueño Callejero al Sabor Más Bestial de Pedregal</h2>
+             <p>Mega Burger 507 no nació en una sala de juntas. Nació en la calle, con el sonido de la plancha caliente, el aroma de la carne fresca y un sueño simple: crear la hamburguesa más brutal y deliciosa que Panamá haya probado jamás.</p>
+             <p>Somos un food truck, pero nuestro corazón es el de un restaurante de cinco estrellas. Cada ingrediente es seleccionado a mano, cada salsa es una receta secreta de la familia y cada hamburguesa se ensambla con la pasión de un artesano. No vendemos comida rápida; servimos felicidad rápida.</p>
+             <h2>Los Titanes del Menú: Conoce a Nuestras Leyendas</h2>
+             <p>Para nosotros, "Mega" no es solo parte del nombre. Es nuestra filosofía. Es la promesa de que cada plato que sale de nuestro food truck está diseñado para conquistar los antojos más salvajes. ¿Estás listo para conocer a los titanes de nuestro menú?</p>
+             <div class="space-y-12 mt-10">
+                <div class="md:flex gap-8 items-center"><img src="https://i.postimg.cc/NMmgrT49/unnamed.png" alt="Mega Triple Hamburguesa" class="w-full md:w-1/2 rounded-lg shadow-md mb-4 md:mb-0"><div class="md:w-1/2"><h3>La Mega Triple</h3><p>El reto definitivo para un hambre real. Tres proteínas (carne, pollo, chuleta ahumada), bacon y queso. Esta no es una hamburguesa, es una declaración.</p></div></div>
+                <div class="md:flex gap-8 items-center flex-row-reverse"><img src="https://i.postimg.cc/gjDJ7R1X/unnamed.png" alt="Salchipapa Mega Todo" class="w-full md:w-1/2 rounded-lg shadow-md mb-4 md:mb-0"><div class="md:w-1/2"><h3>La Salchipapa Mega Todo</h3><p>La bestia de las salchipapas. Una montaña de papas fritas crujientes ahogadas en salchicha, pollo, puerco, chorizo, maíz y una avalancha de queso blanco. Perfecta para compartir... o no.</p></div></div>
+                <div class="md:flex gap-8 items-center"><img src="https://i.postimg.cc/JzjgCqP2/unnamed.png" alt="Patacón Relleno Mixto" class="w-full md:w-1/2 rounded-lg shadow-md mb-4 md:mb-0"><div class="md:w-1/2"><h3>El Patacón Relleno Mixto</h3><p>El crujido que lo cambia todo. Dos patacones dorados y crujientes abrazando un relleno brutal de carne y pollo desmechado, jamón, bacon y queso. Pura fusión panameño-venezolana.</p></div></div>
+                <div class="md:flex gap-8 items-center flex-row-reverse"><img src="https://i.postimg.cc/bwsNhLr8/unnamed.png" alt="Pepito Mixto" class="w-full md:w-1/2 rounded-lg shadow-md mb-4 md:mb-0"><div class="md:w-1/2"><h3>El Pepito Mixto</h3><p>El rey de los antojos. Un pan flauta tibio y crujiente de 30cm, cargado con jugoso pollo y carne, lechuga fresca, tomate, bacon crujiente y una doble capa de queso parmesano y amarillo. Resuelve tu noche.</p></div></div>
+             </div>
+             <div class="mt-16 text-center">
+                <a href="https://crea-tu-pedido-megaburger.netlify.app/" target="_blank" rel="noopener noreferrer" class="inline-block bg-amber-400 text-gray-900 font-bold font-anton text-2xl px-10 py-4 rounded-lg uppercase tracking-wider hover:bg-amber-500 transform hover:scale-105 transition-all duration-300">
+                    ¡Pide una de estas bestias ahora!
+                </a>
+            </div>
+        </div>
+    </template>
+    
+    <template id="location-page-template">
+        <div class="max-w-4xl mx-auto text-lg text-gray-300 post-content">
+            <h1 class="text-4xl md:text-5xl font-bold font-anton text-amber-400 mb-6 post-title-effect">Ubicación y Horario</h1>
+            <div class="mb-8"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7879.913781738042!2d-79.430365!3d9.067692!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fab55e307cb4609%3A0xca8331b05956de8f!2sCentro%20de%20Materiales%20Villa%20Cecilia!5e0!3m2!1ses!2sco!4v1759716176702!5m2!1ses!2sco" class="w-full h-96 rounded-lg" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+            <h2>¿Dónde Encontrarnos?</h2>
+            <p>Nos encontrarás en el aparcamiento del <strong>Centro de Materiales Villa Cecilia</strong>, Av. José María Torrijos, Pedregal, Panamá.</p>
+            <p class="text-sm text-gray-400">(El pin del mapa muestra el negocio local, ¡búscanos en su estacionamiento!)</p>
+            <div class="text-center my-8"><a href="https://maps.app.goo.gl/Vsv26x9uFJyAn4R7A" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-500 text-white font-bold font-anton text-2xl px-10 py-4 rounded-lg uppercase tracking-wider hover:bg-blue-600 transform hover:scale-105 transition-all duration-300">CÓMO LLEGAR</a></div>
+            <h2>Nuestros Horarios</h2>
+            <ul class="list-disc list-inside space-y-2">
+                <li><strong>Lunes a Jueves:</strong> 7:00 p.m. - 2:00 a.m.</li>
+                <li><strong>Viernes y Sábado:</strong> 7:00 p.m. - 3:00 a.m.</li>
+                <li><strong>Domingo:</strong> 7:00 p.m. - 2:00 a.m.</li>
+            </ul>
+        </div>
+    </template>
+
+    <script>
+    // --- CONFIGURACIÓN ---
+    const API_URL = '/api/posts'; // Apuntamos a nuestra Netlify Function
+    const POSTS_PER_PAGE = 6;
+
+    let allPosts = [];
+    let currentFilter = { search: '', category: '' };
+    let currentPage = 1;
+
+    const routerView = document.getElementById('router-view');
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        loadPosts();
+        window.addEventListener('hashchange', updateRouter);
+        
+        window.onscroll = () => {
+          if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+            scrollTopBtn.classList.remove('hidden');
+          } else {
+            scrollTopBtn.classList.add('hidden');
+          }
+        };
+        scrollTopBtn.onclick = () => {
+          window.scrollTo({top: 0});
+        };
+    });
+    
+    async function loadPosts() {
+        showLoading();
+        try {
+            const response = await fetch(API_URL);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const postsFromAPI = await response.json();
+            allPosts = postsFromAPI;
+            updateRouter();
+        } catch (error) {
+            showError(error.message);
+            console.error("Falló la carga de artículos:", error);
+        }
+    }
+
+    function updateRouter() {
+        const hash = window.location.hash;
+
+        if (hash.startsWith('#/sobre-nosotros')) {
+            renderAboutPage();
+        } else if (hash.startsWith('#/ubicacion')) {
+            renderLocationPage();
+        } else if (hash.startsWith('#post/')) {
+            const slug = hash.substring(6);
+            const post = allPosts.find(p => p.slug === slug);
+            if (post) renderPostDetail(post);
+            else showError('Artículo no encontrado.');
+        } else if (hash.startsWith('#/category/')) {
+            currentFilter.category = decodeURIComponent(hash.substring(10));
+            currentFilter.search = '';
+            currentPage = 1;
+            renderPostsList();
+        } else {
+            const params = new URLSearchParams(hash.substring(1));
+            currentFilter.search = params.get('q') || '';
+            currentFilter.category = '';
+            currentPage = parseInt(params.get('page') || '1', 10);
+            renderPostsList();
+        }
+    }
+
+    // --- RENDERIZADO DE VISTAS ---
+
+    function renderPostsList() {
+        setDefaultMetaTags(currentFilter.category);
+        let searchInput = document.getElementById('search-input');
+        if (!searchInput) {
+            const template = document.getElementById('posts-list-template');
+            routerView.innerHTML = '';
+            routerView.appendChild(template.content.cloneNode(true));
+            searchInput = document.getElementById('search-input');
+            const debouncedSearch = debounce((e) => handleSearch(e.target.value));
+            searchInput.addEventListener('input', debouncedSearch);
+        }
+
+        searchInput.value = currentFilter.search;
+        
+        let postsToDisplay = allPosts;
+        
+        if (currentFilter.category) {
+            postsToDisplay = allPosts.filter(p => p.category && p.category.toLowerCase() === currentFilter.category.toLowerCase());
+        }
+
+        if (currentFilter.search) {
+            postsToDisplay = postsToDisplay.filter(post => {
+                const searchTerm = currentFilter.search.toLowerCase();
+                const titleMatch = (post.title || '').toLowerCase().includes(searchTerm);
+                const contentMatch = (post.content || '').toLowerCase().includes(searchTerm);
+                const tagMatch = post.tags && post.tags.some(tag => (tag || '').toLowerCase().includes(searchTerm));
+                return titleMatch || contentMatch || tagMatch;
+            });
+        }
+        
+        const filterStatus = document.getElementById('filter-status');
+        if (currentFilter.category) {
+            filterStatus.innerHTML = `
+                <h2 class="text-2xl text-gray-300">Mostrando categoría: 
+                    <strong class="text-amber-400">${currentFilter.category}</strong>
+                    <a href="#" class="text-sm ml-2 text-red-500 hover:underline">[Limpiar]</a>
+                </h2>`;
+        } else {
+            filterStatus.innerHTML = '';
+        }
+
+        const paginatedPosts = postsToDisplay.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE);
+        const container = document.getElementById('posts-container');
+        container.innerHTML = paginatedPosts.map(createPostCard).join('');
+        renderPagination(postsToDisplay.length);
+    }
+
+    function renderPostDetail(post) {
+        updateMetaTags(post);
+        const template = document.getElementById('post-detail-template');
+        routerView.innerHTML = '';
+        const view = template.content.cloneNode(true);
+        
+        view.querySelector('#post-image').src = post.imageUrl || '';
+        view.querySelector('#post-image').alt = post.title || 'Imagen del artículo';
+        view.querySelector('#post-title').textContent = post.title || 'Artículo sin título';
+        view.querySelector('#post-author').textContent = `Por ${post.author || 'Anónimo'}`;
+        view.querySelector('#post-date').textContent = post.date || '';
+        view.querySelector('#post-content').innerHTML = post.content || '<p>Contenido no disponible.</p>';
+        
+        const categoryLink = view.querySelector('#post-category-link');
+        categoryLink.textContent = post.category || '';
+        categoryLink.href = `#/category/${encodeURIComponent(post.category || '')}`;
+
+        const videoContainer = view.querySelector('#post-video-container');
+        if (post.youtubeVideoId) {
+            videoContainer.innerHTML = `<iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/${post.youtubeVideoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        }
+        
+        setupShareButtons(view, post);
+        renderRelatedPosts(view, post);
+        
+        routerView.appendChild(view);
+        window.scrollTo(0, 0);
+    }
+    
+    function renderAboutPage() {
+        document.title = "Nuestra Historia - Mega Burger 507";
+        const template = document.getElementById('about-page-template');
+        routerView.innerHTML = '';
+        routerView.appendChild(template.content.cloneNode(true));
+        window.scrollTo(0,0);
+    }
+
+    function renderLocationPage() {
+        document.title = "Ubicación y Horario - Mega Burger 507";
+        const template = document.getElementById('location-page-template');
+        routerView.innerHTML = '';
+        routerView.appendChild(template.content.cloneNode(true));
+        window.scrollTo(0,0);
+    }
+    
+    function renderPagination(totalItems) {
+        const container = document.getElementById('pagination-container');
+        container.innerHTML = '';
+        const totalPages = Math.ceil(totalItems / POSTS_PER_PAGE);
+
+        if (totalPages <= 1) return;
+
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('a');
+            let href = '#';
+            const params = new URLSearchParams();
+            if (currentFilter.search) params.set('q', currentFilter.search);
+            if (currentFilter.category) href = `#/category/${encodeURIComponent(currentFilter.category)}`;
+            params.set('page', i);
+
+            if(!currentFilter.category) href += `?${params.toString()}`.replace('?','');
+            
+            btn.href = href;
+            btn.textContent = i;
+            btn.className = `pagination-btn px-4 py-2 rounded-lg bg-gray-800 hover:bg-amber-400 hover:text-gray-900 transition-colors ${i === currentPage ? 'active' : ''}`;
+            container.appendChild(btn);
+        }
+    }
+    
+    function renderRelatedPosts(view, currentPost) {
+        const relatedContainer = view.querySelector('#related-posts-section');
+        if (!currentPost.tags || currentPost.tags.length === 0) {
+            relatedContainer.innerHTML = '';
+            return;
+        }
+
+        const related = allPosts.filter(p => {
+            return p.id !== currentPost.id && p.tags && p.tags.some(tag => currentPost.tags.includes(tag));
+        }).slice(0, 3);
+
+        if (related.length > 0) {
+            relatedContainer.innerHTML = `<h3 class="text-3xl font-bold font-anton text-amber-400 mb-6 post-title-effect">También te podría interesar...</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                ${related.map(createRelatedPostCard).join('')}
+            </div>`;
+        }
+    }
+
+    function updateMetaTags(post) {
+        document.title = `${post.title || 'Blog'} - Mega Burger 507`;
+        document.getElementById('meta-description').setAttribute('content', post.excerpt || '');
+        document.getElementById('meta-og-title').setAttribute('content', post.title || 'Mega Burger 507');
+        document.getElementById('meta-og-description').setAttribute('content', post.excerpt || '');
+        document.getElementById('meta-og-image').setAttribute('content', post.imageUrl || 'https://i.postimg.cc/R0xqNYsW/unnamed.png');
+        updateSchema(post);
+    }
+
+    function setDefaultMetaTags(category = '') {
+        const baseTitle = 'Blog - Mega Burger 507';
+        const pageTitle = category ? `${category} - ${baseTitle}` : baseTitle;
+        document.title = pageTitle;
+
+        const defaultDescription = category ? `Explora todos nuestros artículos sobre ${category} en el blog de Mega Burger 507.` : "El Blog De Las Mejores Hamburguesas De Pedregal Panama Con El Sabor Mas Bestial.";
+        document.getElementById('meta-description').setAttribute('content', defaultDescription);
+        document.getElementById('meta-og-title').setAttribute('content', pageTitle);
+        document.getElementById('meta-og-description').setAttribute('content', defaultDescription);
+        document.getElementById('meta-og-image').setAttribute('content', 'https://i.postimg.cc/R0xqNYsW/unnamed.png');
+        updateSchema(); 
+    }
+
+    function updateSchema(post) {
+        const container = document.getElementById('schema-container');
+        container.innerHTML = ''; 
+        if (!post) return;
+        const schema = {"@context": "https://schema.org", "@type": "BlogPosting", "headline": post.title, "image": post.imageUrl, "author": {"@type": "Person", "name": post.author}, "publisher": {"@type": "Organization", "name": "Mega Burger 507", "logo": {"@type": "ImageObject", "url": "https://i.postimg.cc/R0xqNYsW/unnamed.png"}},"datePublished": new Date().toISOString(),"description": post.excerpt};
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(schema);
+        container.appendChild(script);
+    }
+
+    function createPostCard(post) {
+        return `
+            <a href="#post/${post.slug}" class="block bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-amber-400/20 transform hover:-translate-y-1 transition-all duration-300">
+                <div class="relative">
+                    <img class="w-full aspect-square object-cover" src="${post.imageUrl || 'https://placehold.co/600x600/111827/FBBF24?text=Mega+Burger'}" alt="${post.title || 'Artículo'}" loading="lazy">
+                    <span class="absolute top-2 right-2 bg-amber-800 text-amber-200 px-2 py-1 rounded-md text-sm">${post.category || ''}</span>
+                </div>
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold font-anton text-amber-400 mb-2 post-title-effect">${post.title || 'Artículo sin título'}</h2>
+                    <p class="text-gray-400 mb-4">${post.excerpt || ''}</p>
+                    <span class="text-amber-500 font-semibold p-2 -m-2">Leer más &rarr;</span>
+                </div>
+            </a>
+        `;
+    }
+
+    function createRelatedPostCard(post) {
+        return `
+            <a href="#post/${post.slug}" class="block bg-gray-800/50 rounded-lg overflow-hidden hover:bg-gray-800 transition-colors">
+                <img class="w-full h-32 object-cover" src="${post.imageUrl || 'https://placehold.co/400x300/111827/FBBF24?text=Mega+Burger'}" alt="${post.title || 'Artículo'}" loading="lazy">
+                <div class="p-4">
+                    <h3 class="font-bold text-amber-400 text-lg">${post.title || 'Artículo sin título'}</h3>
+                </div>
+            </a>
+        `;
+    }
+    
+    function setupShareButtons(view, post) {
+        const currentUrl = window.location.href;
+        const shareText = encodeURIComponent(`¡Mira este artículo de Mega Burger 507! "${post.title || ''}"`);
+        
+        view.querySelector('#share-whatsapp').href = `https://api.whatsapp.com/send?text=${shareText}%20${encodeURIComponent(currentUrl)}`;
+        view.querySelector('#share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+        
+        const copyBtn = view.querySelector('#copy-link-btn');
+        const copyBtnOriginalContent = copyBtn.innerHTML;
+        
+        copyBtn.addEventListener('click', () => {
+            const dummy = document.createElement('textarea');
+            document.body.appendChild(dummy);
+            dummy.value = currentUrl;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+
+            copyBtn.innerHTML = `<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+            copyBtn.title = '¡Enlace copiado!';
+            
+            setTimeout(() => { 
+                copyBtn.innerHTML = copyBtnOriginalContent; 
+                copyBtn.title = 'Copiar enlace'; 
+            }, 2000);
+        });
+    }
+
+    function debounce(func, delay = 300) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => func.apply(this,a), delay); }; }
+    function handleSearch(query) { window.location.hash = `#q=${query}&page=1`; }
+    
+    function showLoading() {
+        const loadingMessages = [
+            "Calentando la plancha para los mejores posts...",
+            "Buscando el sabor más bestial...",
+            "Preparando tu dosis de contenido mega...",
+            "Afilando los cuchillos para cortar la rutina...",
+            "Cargando las hamburguesas más brutales..."
+        ];
+        const randomIndex = Math.floor(Math.random() * loadingMessages.length);
+        routerView.innerHTML = `<p class="text-center text-amber-400 text-2xl animate-pulse">${loadingMessages[randomIndex]}</p>`;
+    }
+
+    function showError(message) { routerView.innerHTML = `<div class="text-center text-red-500 p-8 bg-red-900/20 rounded-lg"><h2 class="text-3xl font-bold mb-2">¡Oh no! Algo salió mal</h2><p>${message}</p></div>`; }
+    </script>
+</body>
+</html>
+
+
