@@ -12,5 +12,26 @@
   to = "/.netlify/functions/get-posts"
   # Código 200 significa que es una reescritura, no una redirección visible.
   status = 200
+```
+
+4.  **Guarda el archivo.**
+
+### El Lanzamiento Final (Ahora sí)
+
+Ahora, vamos a subir esta corrección a GitHub usando la terminal, lo que automáticamente le dirá a Netlify que lo intente de nuevo.
+
+1.  **Abre la terminal** y asegúrate de estar dentro de la carpeta `'blog megaburger'`.
+2.  **Prepara el cambio:**
+    ```bash
+    git add .
+    ```
+3.  **Confirma el arreglo:**
+    ```bash
+    git commit -m "Fix: Corrige la sintaxis del netlify.toml"
+    ```
+4.  **Sube la corrección:**
+    ```bash
+    git push origin main
+    
 
 
